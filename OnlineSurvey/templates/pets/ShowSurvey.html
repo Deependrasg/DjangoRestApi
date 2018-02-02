@@ -1,0 +1,62 @@
+{% extends 'pets/base.html' %}
+{% load staticfiles %}
+{% load static %}
+{% load i18n %}
+{% block stylesheet %} 
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  -->
+  <!-- thid code used to create background and my code inbult-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link href="{% static 'pets/css/style.css' %}" rel="stylesheet" type="text/css">
+
+{% endblock %}
+
+
+
+
+
+{% block content %}
+<div class="container">
+  <div class="sky">
+    <div class="stars"></div>
+    <div class="stars1"></div>
+    <div class="stars2"></div>
+    <div class="shooting-stars"></div>
+<div class="Start_Body">
+<!-- ____________Div Menu Start Main Page______________________________________ -->
+<div id='Table_back_div'>
+<!-- _____________________TAble Start Here____________________________________ -->
+<div id='table_wrapper'>
+<table  class="results table table-hover " id='table_id'>
+  <p class='pre'> <thead>
+    <tr>
+      <th class='id'>Id</th>
+
+      <th class='name-'>Name </th>
+      <th class='description'>Description </th>
+      <th class='td7'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Action&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    </tr>
+  </thead></p>
+  <tbody>    
+  </tbody>
+</table>
+</div>
+  
+</div>
+  </div>
+</div>
+{% endblock %}
+{% block javascript %}
+
+<script src="{% static 'pets/js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'pets/js/get_all_survey.js' %}"></script>
+  <script type="text/javascript" src="{% static 'pets/js/main.js' %}"></script>
+
+{% endblock %}
+
+
+
+  
+
+
+

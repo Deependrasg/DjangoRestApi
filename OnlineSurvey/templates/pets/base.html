@@ -1,0 +1,159 @@
+
+ {% load static %}
+ <!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}    Survey Portal  {% endblock %}</title>
+
+<link rel="shortcut icon" href="{%  static 'pets/images/favicon.ico' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'pets/css/bootstrap.min.css' %}" />
+<link href="{% static 'plugins/datatables/datatables.min.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'plugins/datatables/plugins/bootstrap/datatables.bootstrap.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'css/jquery.fancybox.css' %}" rel="stylesheet" media="screen">
+<link href="{% static 'plugins/sweetalert.min.css' %}" rel="stylesheet" type="text/css">
+<style type="text/css">
+    .page-content-wrapper .page-content{
+        background: #f2f3f8;
+    }
+</style>
+<style>
+
+  .logout-btn {
+    display : none;
+  }
+  <style>
+body {
+    font-family: 'Lato', sans-serif;
+}
+
+.overlay {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0, 0.9);
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+.overlay-content {
+    position: relative;
+    top: 25%;
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.overlay a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.overlay a:hover, .overlay a:focus {
+    color: #f1f1f1;
+}
+
+.overlay .closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+}
+
+@media screen and (max-height: 450px) {
+  .overlay a {font-size: 20px}
+  .overlay .closebtn {
+    font-size: 40px;
+    top: 15px;
+    right: 35px;
+  }
+}
+</style>
+
+    {% block stylesheet %}  
+
+
+
+    {% endblock %}
+</style>
+
+</head>
+
+<body>
+
+
+<header>
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <button data-target="#header-menu" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+       
+      </div>
+      <div class="collapse navbar-collapse" id="header-menu">
+          <a href="/" title='Logout' class="logout-btn btn btn-default navbar-btn navbar-right">  Logout   </a>         
+          <a href="/" title="Sign in" class="signin-btn btn btn-default navbar-btn navbar-right">Sign in</a>           
+          <a href="/signup/" title="Sign up" class="signup-btn btn btn-primary navbar-btn navbar-right" style="margin-right:5px;">
+              Sign up </a>                      
+      </div>     
+    </div>   
+  </nav>
+</header> 
+
+<div id='content'> 
+<div id="myNav" class="overlay">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <div class="overlay-content">
+    <a href="#">About</a>
+    <a href="#">Services</a>
+    <a href="#">Clients</a>
+    <a href="#">Contact</a>
+  </div>
+</div>   
+
+  <script src="{% static 'pets/js/jquery.min.js' %}"></script>
+  <script src="{% static 'pets/js/bootstrap.min.js' %}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.5.0/sweet-alert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.5.0/sweet-alert.css"/>
+
+  {% block content %} {% endblock %} 
+</div>
+
+
+<script>
+function openNav() {
+    document.getElementById("myNav").style.width = "100%";
+}
+function closeNav() {
+    document.getElementById("myNav").style.width = "0%";
+}
+</script>
+  {% block javascript %} {% endblock %}
+  <nav class="footer navbar-fixed-bottom navbar-default">
+    <div class="container">
+    <div class="row">
+      <div class="col-xs-12 legal">
+      <br>
+        <center> <span>© 2017 Survey Portal</span> </center>
+      <br>
+      </div>
+     </div>
+    </div>
+</nav>
+</body>
+</html>
