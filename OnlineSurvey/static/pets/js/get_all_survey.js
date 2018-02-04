@@ -30,7 +30,8 @@ $(document).on("click",".delete",function(){
 
  var id=$(this).data("id");
         $.ajax({
-            type:"DELETE",
+            type:"destroy",
+            // type: "delete",
             url:"/user/list/"+ id+"/",
             data:{ 'id': id },
             contentType:"application/json; charset=utf-8",

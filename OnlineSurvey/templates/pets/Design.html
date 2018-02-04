@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- <script src="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/ css/font-awesome.min.css"></script> -->
+
   <style>
 
   ul {
@@ -25,10 +27,10 @@
   #datewarn, #all_form_invalid   {
     color : red;
   }
-/*
-.form-control {
+
+/*.form-control {
     display: block;
-    width: 220%;
+    width: 200%;
     height: 34px;
     padding: 6px 12px;
     font-size: 14px;
@@ -69,80 +71,212 @@
 .data {
     border: 3px dashed lightgray;
     background-color:lavender;
-    height: 300px;
+    height: 700px;
 }
+#delete-drop {
+    border: 3px dashed lightgray;
+    background-color:lavender;
+    height: 50px;
+}
+/* Solve problem on a non-solid background */
+/*a:hover { 
+  outline: 3px solid black; 
+} */
 
+/* Solve problem where border size changes on hover */
+span { 
+  border: 1px solid black; 
+} 
+span:hover { 
+  outline: 4px solid black; 
+} 
 
   </style>
 
 {% endblock %}
 
 {% block content %}
+<div id="delete-drop">
+Drag here to delete.
+</div>
 
-
-<div class="col-sm-6 data" style="" >Data
-        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
+<!-- drop data -->
+<div class="col-sm-6 data " style="" >
   <div id='Drop'>
   </div>      
 </div>
+<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
+<!-- here imput box to edit data -->
+<div class='hide edit_level col-sm-2 '>
+    <input type="text" class="form-control" id="nisha" value="nisha shukl">
+    <button id='save_data' onclick="SaveData()">save-name</button>
+</div>
+<!-- drag able deiv -->
 <div class="col-sm-6" style="background-color:lavender;">
 
+<div class="draggable">
+    <label id='lebel'>Enter Level Name </label>
 </div>
 <div class="draggable">
   <div class="form-group">
-    <label>Enter Level Name </label>
-  <input type="text" class="form-control" id="usr">
-</div></div>
-<div class="draggable">
-  <div class="form-group">
-  <label>Enter Oprnion </label>
+  <label class="level">Enter Oprnion </label>
   <input type="text" class="form-control" id="level">
 </div></div>
 <div class="draggable"><input type="submit" class="form-control" id="level" value="Submit"></div>
-<div class="draggable">Tomato</div>
+</div>
+<!-- show all data -->
+
+<form onsubmit="return false">
+  <button type="submit" id="btAdd" >Add</button>
+  <input id="ipName">
+  <button id="btUndo">Undo</button>
+  <button id="btRedo">Redo</button>
+  <!-- Buffer = <span id="lbBuffer"></span> -->
+  <pre id="lbNames"></pre>
+</form>
+<!--  -->
+
 {% endblock %}
 
 {% block javascript %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script type="text/javascript">
-            $(".draggable").on({
-                dragstart: function(e) {
-                    console.log("product dragstart");
-                    $target = $(e.target);
-                    $target.addClass("dragging");
-                    e.originalEvent.dataTransfer.setData("text/html", $target.html());
-                    // e.originalEvent.dataTransfer.setData("text/html", '<label> Level</label><input type="text" class="form-control" id="usr">');
+    //  Redo and Undo
 
-                },
-                drag: function(e) {
-                    console.log("product drag");
-                },
-                dragend: function(e) {
-                    console.log("product dragend");
-                    $(e.target).removeClass("dragging");
-                }
-              });
-            $(".data").on({
-                dragenter: function(e) {
-                    console.log("basket dragenter");
-                    $(e.target).addClass("dropping");
-                },
-                dragover: function(e) {
-                    console.log("basket dragover");
-                    e.originalEvent.dataTransfer.dropEffect = "copy"; // "move", "link"
-                    return false;        
-                },
-                dragleave: function(e) {
-                    console.log("basket dragleave");
-                    // $(e.target).removeClass("dropping");
-                },
-                drop: function(e) {
-                    console.log("basket drop");
-                    // $(e.target).removeClass("dropping");
+var e = {}; //lets store references to the dom elemements
+Array.prototype.slice.call(document.querySelectorAll("[id]")).
+  forEach(function (el) { e[el.id] = el; });
 
-                    var $target = $(e.target);
-                    var dropText = "" + e.originalEvent.dataTransfer.getData("text/html") + "";
-                    $target.html($target.html() + " " + dropText);
-                }
-            });
+var stack = [],
+    stackPos = 0,
+    names = [];
+
+function showNames() {
+  e.lbNames.textContent = names.join(', ');
+  e.btUndo.disabled =  stackPos <= 0;
+  e.btRedo.disabled = stackPos >= stack.length;
+  e.lbBuffer.textContent = stack.length;
+}
+
+btAdd.onclick = function () {
+  if (!ipName.value) return alert("Please enter some text");
+  //a function closure to capture the name
+  function add(name) {
+    return function () {
+      e.ipName.value = '';
+      e.ipName.focus();
+      names.push(name);
+      stackPos ++;
+      showNames();
+    }
+  }
+  //no need for closure here, as were just going to pop the
+  //last one of the names, and shift the undo-pos back
+  function undo() {
+    stackPos --;
+    names.pop(); 
+    showNames();
+  }
+  //now lets add our do & undo proc
+  var doadd = add(ipName.value);
+  stack.splice(stackPos);
+  stack.push({
+    do: doadd,
+    undo: undo
+  });
+  //lets now do our inital do
+  doadd();
+};
+
+btUndo.onclick = function () {
+  var p = stack[stackPos - 1];
+  p.undo();
+};
+
+btRedo.onclick = function () {
+  var p = stack[stackPos];
+  p.do();
+};
+showNames(); 
+
+//drag and drop envent
+var count = 0;
+$(".draggable").on({
+    dragstart: function(e) {
+        console.log("product dragstart");
+        $target = $(e.target);
+        $target.addClass("dragging");
+        e.originalEvent.dataTransfer.setData("text/html", $target.html());
+        // e.originalEvent.dataTransfer.setData("text/html", '<label> Level</label><input type="text" class="form-control" id="usr">');
+    },
+    dragend: function(e) {
+        console.log("product dragend");
+        $(e.target).removeClass("dragging");
+    }
+  });
+$(".data").on({
+    dragenter: function(e) {
+        console.log("basket dragenter");
+        $(e.target).addClass("dropping");
+    },
+    dragover: function(e) {
+        console.log("basket dragover");
+        e.originalEvent.dataTransfer.dropEffect = "copy"; // "move", "link"
+        return false;        
+    },
+    drop: function(e) {
+        console.log("basket drop");
+        var $target = $(e.target);
+        var dropText = "<div class='main' id='first"+count+"' data-id='first"+count+"'> <span  id='delete'> Delete </span>" + e.originalEvent.dataTransfer.getData("text/html") + "<div>";
+            count++;
+        $target.html($target.html() + "" + dropText);
+    }
+});
+// Delete data
+$('.data').on('click','#delete',function(){
+        $(this).closest('div').remove();
+  });
+
+//add level data to input box
+var div_id
+var div_id1
+$('.data').on('click','#lebel',function(event){
+        console.log($(this).closest('#lebel').text())
+        console.log($(this).find('#lebel').text())
+        console.log($( event.target ).closest('#lebel').text())
+        // var level_name=$( event.target ).closest('#lebel').text('just chill')
+        $('.edit_level').removeClass('hide')
+        var val=$(this).closest('#lebel').text()
+        $('#nisha').val(val)
+        div_id=$(this).closest('div').attr('id')
+        div_id1=$(this).closest('div').data('id')
+  });
+
+//save level data
+function SaveData() {
+// var level_name =$('#nisha').val()
+// $('.main').find(div_id).find('.level').text($('#nisha').val())
+$('#'+div_id+'').find('#lebel').text($('#nisha').val())
+$('.edit_level').addClass('hide')
+}
+
+
+//moveable data
+ $(".data").sortable({
+        connectWith: '#delete-drop',
+        revert: true,
+        /*update: function (event, ui) {
+            // Some code to prevent duplicates
+        }*/
+    });
+ $("#delete-drop").droppable({
+    accept: '.data > div',
+    activeClass: 'dropArea',
+    hoverClass: 'dropAreaHover',
+    drop: function(event, ui) {
+        ui.draggable.remove();
+    }
+});
         </script>
 {% endblock %}

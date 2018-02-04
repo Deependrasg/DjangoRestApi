@@ -22,6 +22,7 @@ class SurveyForm(viewsets.ViewSet):
     serializers_class= ClientSurveySerializer
     model = ClientSurvey
     permission_classes = (IsAuthenticatedOrReadOnly,)
+    # import pdb; pdb.set_trace()
 
     def create(self, request):
         serializer = self.serializers_class(data=request.data)
@@ -68,6 +69,7 @@ class SurveyForm(viewsets.ViewSet):
                           })
 
     def destroy(self, request, pk):
+        import pdb; pdb.set_trace()
         instance=ClientSurvey.objects.get(id=pk)
         instance.delete()
         return Response({"status": '200',

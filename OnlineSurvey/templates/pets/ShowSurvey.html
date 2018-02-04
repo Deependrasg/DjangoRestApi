@@ -1,13 +1,17 @@
-{% extends 'pets/base.html' %}
 {% load staticfiles %}
 {% load static %}
 {% load i18n %}
 {% block stylesheet %} 
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  -->
   <!-- thid code used to create background and my code inbult-->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link href="{% static 'pets/css/style.css' %}" rel="stylesheet" type="text/css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- <link href="{#% static 'pets/css/style.css' %}" rel="stylesheet" type="text/css"> -->
+<link href="{% static 'pets/css/style2.css' %}" rel="stylesheet" type="text/css">
+
+<link rel="shortcut icon" href="{%  static 'pets/images/favicon.ico' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'pets/css/bootstrap.min.css' %}" />
+<link href="{% static 'css/jquery.fancybox.css' %}" rel="stylesheet" media="screen">
 
 {% endblock %}
 
@@ -16,13 +20,36 @@
 
 
 {% block content %}
-<div class="container">
+<!DOCTYPE html>
+<html>
+<head>
+  <title>show all data</title>
+</head>
+<body class="container">
+<div >
   <div class="sky">
     <div class="stars"></div>
     <div class="stars1"></div>
     <div class="stars2"></div>
     <div class="shooting-stars"></div>
-<div class="Start_Body">
+<div class="Start_Body"></div>
+  <div id='Div_header'>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <li><a id="btnExport" >Download_Excle</a></li>   
+    </ul>
+    <form class="navbar-form navbar-right">
+      <div class="input-group">
+        <input type="text" class="form-control" id="search" placeholder="Search" onkeyup="myFunction()">
+        <div class="input-group-btn">
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</nav>
+</div>
 <!-- ____________Div Menu Start Main Page______________________________________ -->
 <div id='Table_back_div'>
 <!-- _____________________TAble Start Here____________________________________ -->
@@ -45,9 +72,36 @@
 </div>
   </div>
 </div>
+</body>
 {% endblock %}
-{% block javascript %}
+{% block javascript %}<script>
 
+//searching data
+ $(document).ready(function(){  
+           $('#search').keyup(function(){  
+               var value = search_table($(this).val()); 
+           });  
+           function search_table(value){  
+                $('#table_id tbody tr').each(function(){  
+                     var found = 'false';  
+                     $(this).each(function(){  
+                          if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)  
+                          {  
+                found = 'true';  
+                          }  
+                     });  
+                     if(found == 'true')  
+                         {  
+                               $(this).show();  
+                         }  
+                            else  
+                             {  
+                               $(this).hide();  
+                             }  
+                });  
+           }  
+      });  
+</script>
 <script src="{% static 'pets/js/jquery.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'pets/js/get_all_survey.js' %}"></script>
   <script type="text/javascript" src="{% static 'pets/js/main.js' %}"></script>
