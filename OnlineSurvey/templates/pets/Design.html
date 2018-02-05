@@ -27,28 +27,11 @@
   #datewarn, #all_form_invalid   {
     color : red;
   }
-
-/*.form-control {
-    display: block;
-    width: 200%;
-    height: 34px;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: 1.42857143;
-    color: #555;
-    background-color: #fff;
-    background-image: none;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}*/
-
 #table-head {
     font-size: 18px;
     font-style: oblique;
     font-weight: 900;
     font-synthesis: weight style;
-    /*font-variant: inherit;*/
-
 }
 
 .draggable {    
@@ -71,18 +54,19 @@
 .data {
     border: 3px dashed lightgray;
     background-color:lavender;
-    height: 700px;
+    height: 900px;
+}
+.start-drag {
+    border: 3px dashed lightgray;
+    background-color:lavender;
+    height: 900px;
 }
 #delete-drop {
     border: 3px dashed lightgray;
     background-color:lavender;
     height: 50px;
+    width: 50%;
 }
-/* Solve problem on a non-solid background */
-/*a:hover { 
-  outline: 3px solid black; 
-} */
-
 /* Solve problem where border size changes on hover */
 span { 
   border: 1px solid black; 
@@ -101,40 +85,30 @@ Drag here to delete.
 </div>
 
 <!-- drop data -->
+<input type="submit" class="form-control" id="submit" value="Submit">
 <div class="col-sm-6 data " style="" >
   <div id='Drop'>
   </div>      
 </div>
-<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
 <!-- here imput box to edit data -->
 <div class='hide edit_level col-sm-2 '>
-    <input type="text" class="form-control" id="nisha" value="nisha shukl">
+    <input type="text" class="form-control" id="nisha" value="">
     <button id='save_data' onclick="SaveData()">save-name</button>
 </div>
 <!-- drag able deiv -->
-<div class="col-sm-6" style="background-color:lavender;">
+<div class="col-sm-6 start-drag" style="background-color:lavender;">
 
 <div class="draggable">
-    <label id='lebel'>Enter Level Name </label>
+    <p id='lebel'>Enter Level Name </p>
 </div>
 <div class="draggable">
   <div class="form-group">
-  <label class="level">Enter Oprnion </label>
-  <input type="text" class="form-control" id="level">
+  <input type="text" class="form-control" id="input" placeholder="Imput your data">
 </div></div>
-<div class="draggable"><input type="submit" class="form-control" id="level" value="Submit"></div>
 </div>
 <!-- show all data -->
 
-<form onsubmit="return false">
-  <button type="submit" id="btAdd" >Add</button>
-  <input id="ipName">
-  <button id="btUndo">Undo</button>
-  <button id="btRedo">Redo</button>
-  <!-- Buffer = <span id="lbBuffer"></span> -->
-  <pre id="lbNames"></pre>
-</form>
-<!--  -->
+
 
 {% endblock %}
 
@@ -144,62 +118,6 @@ Drag here to delete.
 <script type="text/javascript">
     //  Redo and Undo
 
-var e = {}; //lets store references to the dom elemements
-Array.prototype.slice.call(document.querySelectorAll("[id]")).
-  forEach(function (el) { e[el.id] = el; });
-
-var stack = [],
-    stackPos = 0,
-    names = [];
-
-function showNames() {
-  e.lbNames.textContent = names.join(', ');
-  e.btUndo.disabled =  stackPos <= 0;
-  e.btRedo.disabled = stackPos >= stack.length;
-  e.lbBuffer.textContent = stack.length;
-}
-
-btAdd.onclick = function () {
-  if (!ipName.value) return alert("Please enter some text");
-  //a function closure to capture the name
-  function add(name) {
-    return function () {
-      e.ipName.value = '';
-      e.ipName.focus();
-      names.push(name);
-      stackPos ++;
-      showNames();
-    }
-  }
-  //no need for closure here, as were just going to pop the
-  //last one of the names, and shift the undo-pos back
-  function undo() {
-    stackPos --;
-    names.pop(); 
-    showNames();
-  }
-  //now lets add our do & undo proc
-  var doadd = add(ipName.value);
-  stack.splice(stackPos);
-  stack.push({
-    do: doadd,
-    undo: undo
-  });
-  //lets now do our inital do
-  doadd();
-};
-
-btUndo.onclick = function () {
-  var p = stack[stackPos - 1];
-  p.undo();
-};
-
-btRedo.onclick = function () {
-  var p = stack[stackPos];
-  p.do();
-};
-showNames(); 
-
 //drag and drop envent
 var count = 0;
 $(".draggable").on({
@@ -208,13 +126,12 @@ $(".draggable").on({
         $target = $(e.target);
         $target.addClass("dragging");
         e.originalEvent.dataTransfer.setData("text/html", $target.html());
-        // e.originalEvent.dataTransfer.setData("text/html", '<label> Level</label><input type="text" class="form-control" id="usr">');
     },
     dragend: function(e) {
         console.log("product dragend");
         $(e.target).removeClass("dragging");
     }
-  });
+});
 $(".data").on({
     dragenter: function(e) {
         console.log("basket dragenter");
@@ -235,30 +152,29 @@ $(".data").on({
 });
 // Delete data
 $('.data').on('click','#delete',function(){
-        $(this).closest('div').remove();
-  });
+    $(this).closest('div').remove();
+});
 
 //add level data to input box
 var div_id
 var div_id1
 $('.data').on('click','#lebel',function(event){
-        console.log($(this).closest('#lebel').text())
-        console.log($(this).find('#lebel').text())
-        console.log($( event.target ).closest('#lebel').text())
+    console.log($(this).closest('#lebel').text())
+    console.log($(this).find('#lebel').text())
+    console.log($( event.target ).closest('#lebel').text())
         // var level_name=$( event.target ).closest('#lebel').text('just chill')
-        $('.edit_level').removeClass('hide')
-        var val=$(this).closest('#lebel').text()
-        $('#nisha').val(val)
-        div_id=$(this).closest('div').attr('id')
-        div_id1=$(this).closest('div').data('id')
+    $('.edit_level').removeClass('hide')
+    var val=$(this).closest('#lebel').text()
+    $('#nisha').val(val)
+    div_id=$(this).closest('div').attr('id')
+    div_id1=$(this).closest('div').data('id')
   });
 
 //save level data
 function SaveData() {
 // var level_name =$('#nisha').val()
-// $('.main').find(div_id).find('.level').text($('#nisha').val())
-$('#'+div_id+'').find('#lebel').text($('#nisha').val())
-$('.edit_level').addClass('hide')
+    $('#'+div_id+'').find('#lebel').text($('#nisha').val())
+    $('.edit_level').addClass('hide')
 }
 
 
@@ -270,6 +186,7 @@ $('.edit_level').addClass('hide')
             // Some code to prevent duplicates
         }*/
     });
+ 
  $("#delete-drop").droppable({
     accept: '.data > div',
     activeClass: 'dropArea',
@@ -278,5 +195,66 @@ $('.edit_level').addClass('hide')
         ui.draggable.remove();
     }
 });
-        </script>
+
+//Save Design Form
+
+$('#submit').on('click',function(){
+    var arr = [];
+    var arr1 = [];
+   
+
+
+    var lebel_data=$('.main').find('#lebel').text()
+    var input_data=$('.main').find('input').text()
+    console.log(lebel_data,lebel_data)
+    var count = 1;
+    var level_data=0;
+    var input=0;
+    $(".main").each(function(){
+            var id = $(this).attr('id')
+            var input_exist=$('#'+id+'').find('input') 
+            var level=$('#'+id+'').find('#lebel')
+            if((count %2 != 0) && (level[0]!=undefined))
+            {
+                arr.push({
+                        level: $('#'+id+'').find('#lebel').text(), 
+                    });
+                level_data++;
+            }
+            else if ((count % 2 == 0) &&  (input_exist[0] != undefined))
+            {
+                arr.push({
+                        input: $('#'+id+'').find('input').val(), 
+                    });
+                input++;
+            }
+            else{
+                alert('Please Add value like Level and name'+count);
+                return false
+            }
+            count++;
+        });
+    if(level_data!=input){
+        alert('please add Commbo value')
+        return false
+    }
+ console.log(arr)
+
+    // var url = document.URL;
+    // var url_id=url.split('/')
+    // console.log(url_id[4])
+    // $.ajax({
+    //     type: "POST",
+    //     url:"/user/design/",
+    //     headers: { 'Authorization': "Token " + localStorage.access_token },
+    //     data:{ 'survey': url_id[4] ,'lebel_data':lebel_data,'value':input_data},
+    //     success:function (result){
+    //     }
+    // });
+});
+
+
+
+
+</script>
 {% endblock %}

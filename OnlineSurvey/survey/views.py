@@ -11,11 +11,30 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticatedOrReadOnly
-from .models import ClientSurvey
+from .models import ClientSurvey,SurveyDesingForm
 from .serializers import (SignupSerializer, LoginSerializer, LogoutSerializer, ClientSurveySerializer,
-                          AllSurveySerializer)
+                          AllSurveySerializer,SurveyFormSerializer)
 from django.shortcuts import get_object_or_404
 
+class SurveyDesign(viewsets.ViewSet):
+    serializers_class=SurveyFormSerializer
+    models = SurveyDesingForm
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    # import pdb; pdb.set_trace()
+    def create(self,request):
+        serializer = self.serializers_class(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            import pdb; pdb.set_trace()
+            survey_id=ClientSurvey.objects.get(id=request.POST['survey'])
+            lebel_data=request.POST['lebel_data']
+            input_name=request.POST['value']
+            SurveyDesingForm.objects.create(survey=survey_id, lebel_data=lebel_data, value=input_name)
+            return Response({
+               "status": '200',
+               "success" : True,
+               "message" : "Successfully Data Saved",
+              } )
 
 
 class SurveyForm(viewsets.ViewSet):
@@ -69,7 +88,6 @@ class SurveyForm(viewsets.ViewSet):
                           })
 
     def destroy(self, request, pk):
-        import pdb; pdb.set_trace()
         instance=ClientSurvey.objects.get(id=pk)
         instance.delete()
         return Response({"status": '200',

@@ -53,6 +53,7 @@ $("#login_form").on('submit', function(event){
       if (response.status == 200) {
         window.location.href = "/dashboard/";
         window.localStorage.setItem('access_token', token );
+         
       }
       else {
 

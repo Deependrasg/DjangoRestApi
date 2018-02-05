@@ -15,5 +15,6 @@ urlpatterns = [
    url(r'^signup/$', TemplateView.as_view(template_name="pets/signup.html")),
    url(r'^dashboard/$', TemplateView.as_view(template_name="pets/dashboard.html")),
    url(r'^show-list/$', TemplateView.as_view(template_name="pets/ShowSurvey.html")),
-   url(r'^survey/(?P<surveyt_id>[0-9]+)/$',TemplateView.as_view(template_name="pets/Design.html")),
+   url(r'^survey/(?P<survey_id>[0-9]+)/$',TemplateView.as_view(template_name="pets/Design.html")),
+   
 ]

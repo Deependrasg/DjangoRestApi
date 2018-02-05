@@ -30,14 +30,36 @@ $(document).on("click",".delete",function(){
 
  var id=$(this).data("id");
         $.ajax({
-            type:"destroy",
-            // type: "delete",
-            url:"/user/list/"+ id+"/",
-            data:{ 'id': id },
-            contentType:"application/json; charset=utf-8",
-            dataType:"json",
+            // type:"GET",
+            type: "DELETE",
+            url:"/user/list/"+id,
+            headers: { 'Authorization': "Token " + localStorage.access_token },
+            data:{},
             success:function (result){
-                
+                $("tbody").text("")
+                $.ajax({
+                url: "/user/list/",
+                type: "GET",
+                headers: { 'Authorization': "Token " + localStorage.access_token },
+                success: function (data, status, xhr) {  
+                    if (status == 'success') {
+                      $.each(data, function (index, value) {
+                        $(".results").append(
+                            "<tr data-tr_id="+ value.id +">\
+                            <td class='id'>"+ value.id +"</td>\
+                            <td class='name'>"+ value.name +"</td>\
+                            <td class='description'> "+ value.description +"</td>\
+                            <td class='td7'><input type='button'  href='javascript:void(0) id ='del' class='btn-default delete' data-id="+value.id+" value=delete> \
+                            <input type='button'  href='javascript:void(0) id ='del' class='btn-default create' data-id="+value.id+" value=Create></td>\
+                               </tr>\
+                              ");
+                        
+                          })
+                        }
+                      // error: function (response, xhr, error) {
+                      //     }
+                      }
+              });
                 },
                 error: function(){},
         });

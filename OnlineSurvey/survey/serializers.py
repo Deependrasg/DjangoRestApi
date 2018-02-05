@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
-from .models import ClientSurvey
+from .models import ClientSurvey,SurveyDesingForm
 
 class ClientSurveySerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,6 +15,12 @@ class AllSurveySerializer(serializers.ModelSerializer):
         fields = ( 'id','user','name', 'description')
 
 
+class SurveyFormSerializer(serializers.ModelSerializer):
+     class Meta:
+        model=SurveyDesingForm
+        fields=('survey','lebel_data','value')
+
+# login Serializer
 class SignupSerializer(serializers.ModelSerializer):
 
     email = serializers.EmailField(label=("Email"))
