@@ -18,7 +18,15 @@ class AllSurveySerializer(serializers.ModelSerializer):
 class SurveyFormSerializer(serializers.ModelSerializer):
      class Meta:
         model=SurveyDesingForm
-        fields=('survey','lebel_data','value')
+        fields=('survey','lebel_data','level_x','level_y','value',
+                'value_x','value_y')
+
+class AllSurveyFormSerializer(serializers.ModelSerializer):
+     class Meta:
+        model=SurveyDesingForm
+        fields=('id','survey','lebel_data','level_x','level_y','value',
+                'value_x','value_y')
+
 
 # login Serializer
 class SignupSerializer(serializers.ModelSerializer):

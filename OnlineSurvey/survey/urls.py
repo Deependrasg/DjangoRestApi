@@ -12,7 +12,7 @@ router.register(r'logout', Logout, base_name='logout'),
 router.register(r'save-survey-form',SurveyForm,base_name='save_survey_form')
 router.register(r'list',SurveyForm,base_name='list')
 
-router.register(r'design',SurveyDesign,base_name='design')
+router.register(r'Survey-Design',SurveyDesign,base_name='Survey_Design')
 
 
 

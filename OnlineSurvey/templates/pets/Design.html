@@ -33,7 +33,18 @@
     font-weight: 900;
     font-synthesis: weight style;
 }
-
+.save_form {
+    display: block;
+    width: 50%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+}
 .draggable {    
     cursor: move;
     -webkit-user-select: none;
@@ -85,14 +96,14 @@ Drag here to delete.
 </div>
 
 <!-- drop data -->
-<input type="submit" class="form-control" id="submit" value="Submit">
+<input type="submit" class="form-control save_form" id="submit" value="Submit">
 <div class="col-sm-6 data " style="" >
   <div id='Drop'>
   </div>      
 </div>
 <!-- here imput box to edit data -->
 <div class='hide edit_level col-sm-2 '>
-    <input type="text" class="form-control" id="nisha" value="">
+    <input type="text" class="form-control" id="lavel_name_value" value="">
     <button id='save_data' onclick="SaveData()">save-name</button>
 </div>
 <!-- drag able deiv -->
@@ -116,8 +127,49 @@ Drag here to delete.
 
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script type="text/javascript">
-    //  Redo and Undo
+//Stop Drag and Drop Function
+ $(window).dblclick(
+            function () {
+                alert('stoped ');
+    }            
+);
 
+
+
+//Show already added Data
+$( document ).ready(function() {
+    console.log( "ready!" );
+    var url = document.URL;
+    var url_id=url.split('/')
+    var id=url_id[4]
+    $.ajax({
+        type: "GET",
+        url:"/user/Survey-Design/"+id+"/",
+        headers: { 'Authorization': "Token " + localStorage.access_token },
+        data:{},
+        success:function (result){
+            console.log(result)
+            var count=0
+            $.each(result, function (index, value) {
+                $(".data").append(
+                "<div class='main' id='first"+count+"' data-id='first"+count+"' \
+                style='position: relative; top: "+value.level_y+"px; left: "+value.level_x+"px;'> \
+                <span id='delete'> Delete </span>\
+                <p id='lebel'>"+value.lebel_data+"</p>\
+                </div>\
+                <div class='main' id='first1' data-id='first' style='position: relative; top: "+value.value_y+"px; left: "+value.value_x+"px; '>\
+                <span id='delete'> Delete </span>\
+                <div class='form-group'>\
+                <input type='text' class='form-control' id='input'\
+                placeholder='Imput your data'>\
+                </div></div>");
+                count++
+                
+                })
+            }
+        
+    });
+});
 //drag and drop envent
 var count = 0;
 $(".draggable").on({
@@ -165,15 +217,15 @@ $('.data').on('click','#lebel',function(event){
         // var level_name=$( event.target ).closest('#lebel').text('just chill')
     $('.edit_level').removeClass('hide')
     var val=$(this).closest('#lebel').text()
-    $('#nisha').val(val)
+    $('#lavel_name_value').val(val)
     div_id=$(this).closest('div').attr('id')
     div_id1=$(this).closest('div').data('id')
   });
 
 //save level data
 function SaveData() {
-// var level_name =$('#nisha').val()
-    $('#'+div_id+'').find('#lebel').text($('#nisha').val())
+// var level_name =$('#lavel_name_value').val()
+    $('#'+div_id+'').find('#lebel').text($('#lavel_name_value').val())
     $('.edit_level').addClass('hide')
 }
 
@@ -182,9 +234,6 @@ function SaveData() {
  $(".data").sortable({
         connectWith: '#delete-drop',
         revert: true,
-        /*update: function (event, ui) {
-            // Some code to prevent duplicates
-        }*/
     });
  
  $("#delete-drop").droppable({
@@ -200,57 +249,76 @@ function SaveData() {
 
 $('#submit').on('click',function(){
     var arr = [];
-    var arr1 = [];
-   
-
-
     var lebel_data=$('.main').find('#lebel').text()
     var input_data=$('.main').find('input').text()
     console.log(lebel_data,lebel_data)
+    var url = document.URL;
+    var url_id=url.split('/')
     var count = 1;
     var level_data=0;
     var input=0;
+    var level_value;
+    var level_x;
+    var level_y;
+    var offset = $('.data').offset();
+    console.log(offset)
     $(".main").each(function(){
-            var id = $(this).attr('id')
-            var input_exist=$('#'+id+'').find('input') 
-            var level=$('#'+id+'').find('#lebel')
-            if((count %2 != 0) && (level[0]!=undefined))
-            {
-                arr.push({
-                        level: $('#'+id+'').find('#lebel').text(), 
-                    });
-                level_data++;
-            }
-            else if ((count % 2 == 0) &&  (input_exist[0] != undefined))
-            {
-                arr.push({
-                        input: $('#'+id+'').find('input').val(), 
-                    });
-                input++;
-            }
-            else{
-                alert('Please Add value like Level and name'+count);
-                return false
-            }
-            count++;
-        });
+        var id = $(this).attr('id')
+        var input_exist=$('#'+id+'').find('input') 
+        var level=$('#'+id+'').find('#lebel')
+        if((count %2 != 0) && (level[0]!=undefined))
+        {
+            var position = $(this).position();
+            level_value= $('#'+id+'').find('#lebel').text()
+            level_x= position.left;
+            level_y= position.top;
+            console.log( "level_x: " + level_x + ", level_y: " + level_y );
+            level_data++;
+        }
+        else if ((count % 2 == 0) &&  (input_exist[0] != undefined))
+        {
+            var position = $(this).position();
+            input_x= position.left
+            input_y= position.top 
+            arr.push({
+                    survey: url_id[4],
+                    lebel_data:level_value,
+                    level_x:level_x,
+                    level_y:level_y,
+                    value: $('#'+id+'').find('input').val(),
+                    value_x:input_x,
+                    value_y:input_y,
+                });
+            input++;
+            console.log(input,level_data)
+            console.log( "input_x: " + position.left + ", input_y: " + position.top );
+        }
+        else if (input == level_data){
+            console.log(input)
+            console.log(level_data)
+        }
+        else{
+            alert('Please Add value like Level and name'+count);
+            return false
+        }
+        count++;
+    });
     if(level_data!=input){
         alert('please add Commbo value')
         return false
     }
- console.log(arr)
-
-    // var url = document.URL;
-    // var url_id=url.split('/')
-    // console.log(url_id[4])
-    // $.ajax({
-    //     type: "POST",
-    //     url:"/user/design/",
-    //     headers: { 'Authorization': "Token " + localStorage.access_token },
-    //     data:{ 'survey': url_id[4] ,'lebel_data':lebel_data,'value':input_data},
-    //     success:function (result){
-    //     }
-    // });
+    console.log(arr)
+    console.log(url_id[4])
+    $.ajax({
+        type: "POST",
+        url:"/user/Survey-Design/",
+        headers: { 'Authorization': "Token " + localStorage.access_token },
+        data:{'jsonformate':JSON.stringify(arr)},
+        success:function (result){
+        alert('Data Has been saved')
+        window.location.href= '/show-list/';
+        }
+    });
 });
 
 

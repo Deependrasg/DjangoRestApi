@@ -13,29 +13,47 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticatedOrReadOnly
 from .models import ClientSurvey,SurveyDesingForm
 from .serializers import (SignupSerializer, LoginSerializer, LogoutSerializer, ClientSurveySerializer,
-                          AllSurveySerializer,SurveyFormSerializer)
+                          AllSurveySerializer,SurveyFormSerializer,AllSurveyFormSerializer)
 from django.shortcuts import get_object_or_404
-
+import json
 class SurveyDesign(viewsets.ViewSet):
     serializers_class=SurveyFormSerializer
     models = SurveyDesingForm
     permission_classes = (IsAuthenticatedOrReadOnly,)
-
-    # import pdb; pdb.set_trace()
     def create(self,request):
-        serializer = self.serializers_class(data=request.data)
-        if serializer.is_valid(raise_exception=True):
+        store_list = request.POST['jsonformate']
+        print(store_list)
+        design_data = json.loads(store_list)
+        print(design_data[0])
+        for data in design_data:
             import pdb; pdb.set_trace()
-            survey_id=ClientSurvey.objects.get(id=request.POST['survey'])
-            lebel_data=request.POST['lebel_data']
-            input_name=request.POST['value']
-            SurveyDesingForm.objects.create(survey=survey_id, lebel_data=lebel_data, value=input_name)
-            return Response({
-               "status": '200',
-               "success" : True,
-               "message" : "Successfully Data Saved",
-              } )
+            serializer = self.serializers_class(data=data)
+            if serializer.is_valid(raise_exception=True):
+                survey_id=ClientSurvey.objects.get(id=data['survey'])
+                SurveyDesingForm.objects.create(survey= survey_id,
+                                                lebel_data= data['lebel_data'],
+                                                level_x= data['level_x'], 
+                                                level_y= data['level_y'],
+                                                value= data['value'], 
+                                                value_x= data['value_x'],
+                                                value_y= data['value_y'])
+        return Response({
+           "status": '200',
+           "success" : True,
+           "message" : "Successfully Data Saved",
+          } )
 
+    def list(self,request):
+        # import pdb; pdb.set_trace()
+        # surveys=SurveyDesingForm.objects.filter(survey=request.GET['id'])
+        surveys=SurveyDesingForm.objects.all() 
+        serializer = AllSurveyFormSerializer(surveys, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self,request,pk):
+        queryset = SurveyDesingForm.objects.filter(survey=pk)
+        serializer = AllSurveyFormSerializer(queryset,many=True)
+        return Response(serializer.data)
 
 class SurveyForm(viewsets.ViewSet):
     serializers_class= ClientSurveySerializer
