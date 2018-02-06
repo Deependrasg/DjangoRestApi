@@ -12,20 +12,10 @@ $(document).on("submit", "#surveyform", function(event){
             
       
             if (status == 'success') {
-                
-                swal({
-                  title: "Successfully Created",
-                  text: "Pet Successfully created.",
-                  type: "success", 
-                  allowOutsideClick: false,
-                  timer:2000,})
-
-                }
                 window.location.href= '/show-list/';
-              },
-              error: function (response, xhr, error) {
-                  
               }
+                
+            }
       });
 });
 

@@ -68,7 +68,7 @@ Parameter : { name="", description="", }
 
 
 ===========================================================================
-Show all list survey
+Show all list SURVEY
 
 Url :http://localhost:8000/user/list/
 Endpoints : /user/list/
@@ -89,8 +89,8 @@ response: [{
 ============================================================================
 RETRIEVE SURVEY
 
-Url :http://localhost:8000/user/list/62
-Endpoints : /user/list/62
+Url :http://localhost:8000/user/list/62/
+Endpoints : /user/list/62/
 Method : GET
 response: [{
     "id": 62,
@@ -99,3 +99,42 @@ response: [{
     "description": "Singh\r\n"
 }
 ]
+============================================================================
+DELETE SURVEY
+
+Url :http://localhost:8000/user/list/62
+Endpoints : /user/list/62
+Method : DELETE
+response: [{
+    "success": true,
+    "message": "Successfully Deleted",
+    "status": "200"
+}]
+============================================================================
+UPDATE SURVEY
+
+Url :http://localhost:8000/user/list/62/
+Endpoints : /user/list/62/
+Method : PUT
+Parameter : { name="", description="", }
+
+response: [{
+    "success": true,
+    "message": "Successfully Updated",
+    "status": "200"
+}]
+============================================================================
+PARTIAL UPDATE SURVEY
+
+Url :http://localhost:8000/user/list/62/
+Endpoints : /user/list/62/
+Method : PUT
+Parameter : { description="", }
+
+response: [{
+    "success": true,
+    "message": "Successfully Updated",
+    "status": "200"
+}]
+=============================================================================
+

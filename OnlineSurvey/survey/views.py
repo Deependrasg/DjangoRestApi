@@ -16,6 +16,10 @@ from .serializers import (SignupSerializer, LoginSerializer, LogoutSerializer, C
                           AllSurveySerializer,SurveyFormSerializer,AllSurveyFormSerializer)
 from django.shortcuts import get_object_or_404
 import json
+
+###################################################################################
+#                    Survey Design Form API VIEW                                  #
+###################################################################################
 class SurveyDesign(viewsets.ViewSet):
     serializers_class=SurveyFormSerializer
     models = SurveyDesingForm
@@ -26,7 +30,6 @@ class SurveyDesign(viewsets.ViewSet):
         design_data = json.loads(store_list)
         print(design_data[0])
         for data in design_data:
-            import pdb; pdb.set_trace()
             serializer = self.serializers_class(data=data)
             if serializer.is_valid(raise_exception=True):
                 survey_id=ClientSurvey.objects.get(id=data['survey'])
@@ -55,11 +58,14 @@ class SurveyDesign(viewsets.ViewSet):
         serializer = AllSurveyFormSerializer(queryset,many=True)
         return Response(serializer.data)
 
+###################################################################################
+#                    Survey Form API view                                         #
+###################################################################################
+
 class SurveyForm(viewsets.ViewSet):
     serializers_class= ClientSurveySerializer
     model = ClientSurvey
     permission_classes = (IsAuthenticatedOrReadOnly,)
-    # import pdb; pdb.set_trace()
 
     def create(self, request):
         serializer = self.serializers_class(data=request.data)
