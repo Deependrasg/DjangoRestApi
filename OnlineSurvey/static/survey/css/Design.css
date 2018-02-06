@@ -1,0 +1,76 @@
+ul {
+    border : 1px solid black;
+  }
+
+
+  li {  
+    width : 80px;
+    display: inline-block;
+
+  }
+
+  #showdata, #nodata {
+    display : none;
+  }
+
+  #datewarn, #all_form_invalid   {
+    color : red;
+  }
+#table-head {
+    font-size: 18px;
+    font-style: oblique;
+    font-weight: 900;
+    font-synthesis: weight style;
+}
+.save_form {
+    display: block;
+    width: 50%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+}
+.draggable {    
+    cursor: move;
+    -webkit-user-select: none;
+    -khtml-user-drag: element;
+    -webkit-user-drag: element;
+    display: inline-block;
+    margin: 10px;
+    padding: 10px;
+    width: 200px;
+    height: auto;
+    border: 1px solid lightblue;
+    background: lightyellow;
+    text-align: center;
+}
+.dragging {
+    opacity: .5;
+}
+.data {
+    border: 3px dashed lightgray;
+    background-color:lavender;
+    height: 900px;
+}
+.start-drag {
+    border: 3px dashed lightgray;
+    background-color:lavender;
+    height: 900px;
+}
+#delete-drop {
+    border: 3px dashed lightgray;
+    background-color:lavender;
+    height: 50px;
+    width: 50%;
+}
+/* Solve problem where border size changes on hover */
+span { 
+  border: 1px solid black; 
+} 
+span:hover { 
+  outline: 4px solid black; 
+} 
