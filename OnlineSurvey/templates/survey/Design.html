@@ -1,0 +1,124 @@
+{% extends 'survey/base.html' %}
+{% load static %}
+{% block title %} signup {% endblock %}
+{% block stylesheet %} 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ 
+
+  <style>
+
+  ul {
+    border : 1px solid black;
+  }
+
+
+  li {  
+    width : 80px;
+    display: inline-block;
+
+  }
+
+  #showdata, #nodata {
+    display : none;
+  }
+
+  #datewarn, #all_form_invalid   {
+    color : red;
+  }
+#table-head {
+    font-size: 18px;
+    font-style: oblique;
+    font-weight: 900;
+    font-synthesis: weight style;
+}
+.save_form {
+    display: block;
+    width: 50%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+}
+.draggable {    
+    cursor: move;
+    -webkit-user-select: none;
+    -khtml-user-drag: element;
+    -webkit-user-drag: element;
+    display: inline-block;
+    margin: 10px;
+    padding: 10px;
+    width: 200px;
+    height: auto;
+    border: 1px solid lightblue;
+    background: lightyellow;
+    text-align: center;
+}
+.dragging {
+    opacity: .5;
+}
+.data {
+    border: 3px dashed lightgray;
+    background-color:lavender;
+    height: 900px;
+}
+.start-drag {
+    border: 3px dashed lightgray;
+    background-color:lavender;
+    height: 900px;
+}
+#delete-drop {
+    border: 3px dashed lightgray;
+    background-color:lavender;
+    height: 50px;
+    width: 50%;
+}
+/* Solve problem where border size changes on hover */
+span { 
+  border: 1px solid black; 
+} 
+span:hover { 
+  outline: 4px solid black; 
+} 
+
+  </style>
+
+{% endblock %}
+
+{% block content %}
+<div id="delete-drop">
+Drag here to delete.
+</div>
+
+<!-- drop data -->
+<input type="submit" class="form-control save_form" id="submit" value="Submit">
+<div class="col-sm-6 data " style="" >
+  <div id='Drop'>
+  </div>      
+</div>
+<!-- here imput box to edit data -->
+<div class='hide edit_level col-sm-2 '>
+    <input type="text" class="form-control" id="lavel_name_value" value="">
+    <button id='save_data' onclick="SaveData()">save-name</button>
+</div>
+<!-- drag able deiv -->
+<div class="col-sm-6 start-drag" style="background-color:lavender;">
+
+<div class="draggable">
+    <p id='lebel'>Enter Level Name </p>
+</div>
+<div class="draggable">
+  <div class="form-group">
+  <input type="text" class="form-control" id="input" placeholder="Imput your data">
+</div></div>
+</div>
+{% endblock %}
+{% block javascript %}
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<script src="{% static 'survey/js/Design.js' %}"></script>
+{% endblock %}

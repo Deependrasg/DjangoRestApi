@@ -11,10 +11,10 @@ from rest_framework.routers import DefaultRouter
 urlpatterns = [
    url(r'^admin/', admin.site.urls),
    url(r'^user/', include('survey.urls', namespace='user')),  
-   url(r'^$', TemplateView.as_view(template_name="pets/login.html")),
-   url(r'^signup/$', TemplateView.as_view(template_name="pets/signup.html")),
-   url(r'^dashboard/$', TemplateView.as_view(template_name="pets/dashboard.html")),
-   url(r'^show-list/$', TemplateView.as_view(template_name="pets/ShowSurvey.html")),
-   url(r'^survey/(?P<survey_id>[0-9]+)/$',TemplateView.as_view(template_name="pets/Design.html")),
+   url(r'^$', TemplateView.as_view(template_name="survey/login.html")),
+   url(r'^signup/$', TemplateView.as_view(template_name="survey/signup.html")),
+   url(r'^dashboard/$', TemplateView.as_view(template_name="survey/dashboard.html")),
+   url(r'^show-list/$', TemplateView.as_view(template_name="survey/ShowSurvey.html")),
+   url(r'^survey/(?P<survey_id>[0-9]+)/$',TemplateView.as_view(template_name="survey/Design.html")),
    
 ]

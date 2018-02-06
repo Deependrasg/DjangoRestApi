@@ -1,140 +1,9 @@
-{% extends 'pets/base.html' %}
-{% load static %}
-{% block title %} signup {% endblock %}
-{% block stylesheet %} 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <!-- <script src="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/ css/font-awesome.min.css"></script> -->
-
-  <style>
-
-  ul {
-    border : 1px solid black;
-  }
-
-
-  li {  
-    width : 80px;
-    display: inline-block;
-
-  }
-
-  #showdata, #nodata {
-    display : none;
-  }
-
-  #datewarn, #all_form_invalid   {
-    color : red;
-  }
-#table-head {
-    font-size: 18px;
-    font-style: oblique;
-    font-weight: 900;
-    font-synthesis: weight style;
-}
-.save_form {
-    display: block;
-    width: 50%;
-    height: 34px;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: 1.42857143;
-    color: #555;
-    background-color: #fff;
-    background-image: none;
-    border: 1px solid #ccc;
-}
-.draggable {    
-    cursor: move;
-    -webkit-user-select: none;
-    -khtml-user-drag: element;
-    -webkit-user-drag: element;
-    display: inline-block;
-    margin: 10px;
-    padding: 10px;
-    width: 200px;
-    height: auto;
-    border: 1px solid lightblue;
-    background: lightyellow;
-    text-align: center;
-}
-.dragging {
-    opacity: .5;
-}
-.data {
-    border: 3px dashed lightgray;
-    background-color:lavender;
-    height: 900px;
-}
-.start-drag {
-    border: 3px dashed lightgray;
-    background-color:lavender;
-    height: 900px;
-}
-#delete-drop {
-    border: 3px dashed lightgray;
-    background-color:lavender;
-    height: 50px;
-    width: 50%;
-}
-/* Solve problem where border size changes on hover */
-span { 
-  border: 1px solid black; 
-} 
-span:hover { 
-  outline: 4px solid black; 
-} 
-
-  </style>
-
-{% endblock %}
-
-{% block content %}
-<div id="delete-drop">
-Drag here to delete.
-</div>
-
-<!-- drop data -->
-<input type="submit" class="form-control save_form" id="submit" value="Submit">
-<div class="col-sm-6 data " style="" >
-  <div id='Drop'>
-  </div>      
-</div>
-<!-- here imput box to edit data -->
-<div class='hide edit_level col-sm-2 '>
-    <input type="text" class="form-control" id="lavel_name_value" value="">
-    <button id='save_data' onclick="SaveData()">save-name</button>
-</div>
-<!-- drag able deiv -->
-<div class="col-sm-6 start-drag" style="background-color:lavender;">
-
-<div class="draggable">
-    <p id='lebel'>Enter Level Name </p>
-</div>
-<div class="draggable">
-  <div class="form-group">
-  <input type="text" class="form-control" id="input" placeholder="Imput your data">
-</div></div>
-</div>
-<!-- show all data -->
-
-
-
-{% endblock %}
-
-{% block javascript %}
-
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-<script type="text/javascript">
 //Stop Drag and Drop Function
  $(window).dblclick(
             function () {
                 alert('stoped ');
     }            
 );
-
-
 
 //Show already added Data
 $( document ).ready(function() {
@@ -148,7 +17,6 @@ $( document ).ready(function() {
         headers: { 'Authorization': "Token " + localStorage.access_token },
         data:{},
         success:function (result){
-            console.log(result)
             var count=0
             $.each(result, function (index, value) {
                 $(".data").append(
@@ -170,32 +38,28 @@ $( document ).ready(function() {
         
     });
 });
+
 //drag and drop envent
 var count = 0;
 $(".draggable").on({
     dragstart: function(e) {
-        console.log("product dragstart");
         $target = $(e.target);
         $target.addClass("dragging");
         e.originalEvent.dataTransfer.setData("text/html", $target.html());
     },
     dragend: function(e) {
-        console.log("product dragend");
         $(e.target).removeClass("dragging");
     }
 });
 $(".data").on({
     dragenter: function(e) {
-        console.log("basket dragenter");
         $(e.target).addClass("dropping");
     },
     dragover: function(e) {
-        console.log("basket dragover");
         e.originalEvent.dataTransfer.dropEffect = "copy"; // "move", "link"
         return false;        
     },
     drop: function(e) {
-        console.log("basket drop");
         var $target = $(e.target);
         var dropText = "<div class='main' id='first"+count+"' data-id='first"+count+"'> <span  id='delete'> Delete </span>" + e.originalEvent.dataTransfer.getData("text/html") + "<div>";
             count++;
@@ -211,10 +75,6 @@ $('.data').on('click','#delete',function(){
 var div_id
 var div_id1
 $('.data').on('click','#lebel',function(event){
-    console.log($(this).closest('#lebel').text())
-    console.log($(this).find('#lebel').text())
-    console.log($( event.target ).closest('#lebel').text())
-        // var level_name=$( event.target ).closest('#lebel').text('just chill')
     $('.edit_level').removeClass('hide')
     var val=$(this).closest('#lebel').text()
     $('#lavel_name_value').val(val)
@@ -272,7 +132,6 @@ $('#submit').on('click',function(){
             level_value= $('#'+id+'').find('#lebel').text()
             level_x= position.left;
             level_y= position.top;
-            console.log( "level_x: " + level_x + ", level_y: " + level_y );
             level_data++;
         }
         else if ((count % 2 == 0) &&  (input_exist[0] != undefined))
@@ -290,15 +149,9 @@ $('#submit').on('click',function(){
                     value_y:input_y,
                 });
             input++;
-            console.log(input,level_data)
-            console.log( "input_x: " + position.left + ", input_y: " + position.top );
-        }
-        else if (input == level_data){
-            console.log(input)
-            console.log(level_data)
         }
         else{
-            alert('Please Add value like Level and name'+count);
+            alert('Please Add value like Level and name');
             return false
         }
         count++;
@@ -315,14 +168,9 @@ $('#submit').on('click',function(){
         headers: { 'Authorization': "Token " + localStorage.access_token },
         data:{'jsonformate':JSON.stringify(arr)},
         success:function (result){
-        alert('Data Has been saved')
         window.location.href= '/show-list/';
         }
     });
 });
 
 
-
-
-</script>
-{% endblock %}
