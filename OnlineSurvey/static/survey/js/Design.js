@@ -28,8 +28,8 @@ $( document ).ready(function() {
                 <div class='main' id='first1' data-id='first' style='position: relative; top: "+value.value_y+"px; left: "+value.value_x+"px; '>\
                 <span id='delete'> Delete </span>\
                 <div class='form-group'>\
-                <input type='text' class='form-control' id='input'\
-                placeholder='Imput your data'>\
+                <input type='text' class='form-control' value='"+value.value +"' id='input'\
+                placeholder='Input your data'>\
                 </div></div>");
                 count++
                 
