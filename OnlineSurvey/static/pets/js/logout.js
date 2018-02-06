@@ -10,8 +10,7 @@ $('.logout-btn').on('click', function() {
     success: function (response, status, xhr) {  
         console.log(response)
         if (response.status == 200) {
-            alert(response.message)
-
+            console.log(response.message)
             window.localStorage.clear()
             window.location.href = "/";
       }

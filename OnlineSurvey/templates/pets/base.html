@@ -4,28 +4,22 @@
 
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}    Survey Portal  {% endblock %}</title>
+    <link rel="shortcut icon" href="{%  static 'pets/images/favicon.ico' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'pets/css/bootstrap.min.css' %}" />
+    <link href="{% static 'plugins/sweetalert.min.css' %}" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        .page-content-wrapper .page-content{
+            background: #f2f3f8;
+            }
+    </style>
 
-<link rel="shortcut icon" href="{%  static 'pets/images/favicon.ico' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'pets/css/bootstrap.min.css' %}" />
-<link href="{% static 'plugins/datatables/datatables.min.css' %}" rel="stylesheet" type="text/css" />
-<link href="{% static 'plugins/datatables/plugins/bootstrap/datatables.bootstrap.css' %}" rel="stylesheet" type="text/css" />
-<link href="{% static 'css/jquery.fancybox.css' %}" rel="stylesheet" media="screen">
-<link href="{% static 'plugins/sweetalert.min.css' %}" rel="stylesheet" type="text/css">
-<style type="text/css">
-    .page-content-wrapper .page-content{
-        background: #f2f3f8;
-    }
-</style>
 <style>
-
   .logout-btn {
     display : none;
   }
-  <style>
 body {
     font-family: 'Lato', sans-serif;
 }
@@ -87,12 +81,8 @@ body {
 
     {% endblock %}
 </style>
-
 </head>
-
 <body>
-
-
 <header>
   <nav class="navbar navbar-default">
     <div class="container">
@@ -113,7 +103,6 @@ body {
     </div>   
   </nav>
 </header> 
-
 <div id='content'> 
 <div id="myNav" class="overlay">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -124,11 +113,9 @@ body {
     <a href="#">Contact</a>
   </div>
 </div>   
-
   <script src="{% static 'pets/js/jquery.min.js' %}"></script>
   <script src="{% static 'pets/js/bootstrap.min.js' %}"></script>
   <script src="{% static 'pets/js/logout.js' %}"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.5.0/sweet-alert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.5.0/sweet-alert.css"/>
 
@@ -138,20 +125,27 @@ body {
 
 <script>
 let token = localStorage.access_token
+if (token){
 $('.signup-btn').css('display' , 'none');      
 $('.signin-btn').css('display' , 'none');      
-$('.logout-btn').css('display' , 'inline');      
+$('.logout-btn').css('display' , 'inline');
+}
+else{
+$('.signup-btn').css('display' , 'inline');      
+$('.signin-btn').css('display' , 'inline');      
+$('.logout-btn').css('display' , 'none'); 
+}      
 </script>
-  {% block javascript %} {% endblock %}
-  <nav class="footer navbar-fixed-bottom navbar-default">
+    {% block javascript %} {% endblock %}
+<nav class="footer navbar-fixed-bottom navbar-default">
     <div class="container">
-    <div class="row">
-      <div class="col-xs-12 legal">
-      <br>
-        <center> <span>© 2017 Survey Portal</span> </center>
-      <br>
-      </div>
-     </div>
+        <div class="row">
+            <div class="col-xs-12 legal">
+                <br>
+                <center> <span>© 2017 Survey Portal</span> </center>
+                <br>
+            </div>
+        </div>
     </div>
 </nav>
 </body>

@@ -1,0 +1,101 @@
+
+================================================================
+|                     Login System for Survey                  |       
+================================================================
+User SIGNUP API 
+
+url : http://localhost:8000/user/signup/
+Endpoints :/user/signup/
+Method : POST
+Parameter : { username="", email="", password="", confirm-pass=""}
+
+"response": [
+	{
+    	"message": "Successfully Created Your Account.",
+    	"status": 201,
+    	"success": true
+	}
+  ]
+
+
+Note: All fields are required
+
+========================================================
+
+LOGIN API 
+
+url :http://localhost:8000/user/login/
+Endpoints :/user/login/
+Method : POST
+Parameter : { email="", password="", }
+"response": {
+   "message": "Successfully login",
+   "status": 200
+}
+
+===============================================================
+
+LOGOUT API
+
+url : http://localhost:8000/user/logout/
+Endpoints : /user/logout/
+Method : POST
+header : { 'token': "" }
+response : {
+   "message": "Successfully logout",
+   "status": 200
+}
+
+
+Deependra Singh • Now
+
+
+==========================================================================
+|                     Create Survey Api                                  |
+==========================================================================
+
+CREATE NEW SURVEY
+
+Url :http://localhost:8000/user/list/
+Endpoints : /user/list/
+Method : POST
+Parameter : { name="", description="", }
+"response": {
+    "message": "Successfully Data Saved",
+    "success": true,
+    "status": "200"
+}
+
+
+===========================================================================
+Show all list survey
+
+Url :http://localhost:8000/user/list/
+Endpoints : /user/list/
+Method : GET
+response: [{
+        "id": 61,
+        "user": 3,
+        "name": "Deependra",
+        "description": "This is my first Servey"
+    },
+    {
+        "id": 62,
+        "user": 3,
+        "name": "Deependra",
+        "description": "This survey related to technical support"
+    }
+]
+============================================================================
+RETRIEVE SURVEY
+
+Url :http://localhost:8000/user/list/62
+Endpoints : /user/list/62
+Method : GET
+response: [{
+    "id": 62,
+    "user": 3,
+    "name": "Deependra",
+    "description": "Singh\r\n"
+}
+]

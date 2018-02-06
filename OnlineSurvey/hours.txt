@@ -1,0 +1,23 @@
+Time Spent Details
+
+1)API 
+	a)User Authentication API
+		Time: 2 Hours
+	b)SurveyForm API
+	    Time: 2 Hours
+	c)SurveDesingForm API
+		Time: 2 Houurs
+
+2)UI
+
+	a)Basic UI
+	  Time 1.30 Hours
+	b)Drag and Drop Feature 
+	  Time 3.0 Hours
+
+3)Database
+	30 Mins
+
+
+
+

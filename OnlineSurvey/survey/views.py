@@ -168,7 +168,7 @@ class Logout(viewsets.ViewSet):
     permission_classes = (AllowAny,)
     serializer_class = LogoutSerializer
 
-    def post(self, request, *args, **kwargs):
+    def create(self, request):
         serializer = self.serializer_class(data = request.data)
         serializer.is_valid(raise_exception=True)
         token = serializer.validated_data['token']

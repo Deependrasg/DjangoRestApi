@@ -1,0 +1,17 @@
+1) User Need to create account in survey application
+2) After sucessfull signin/signup User will be able to create a survey with name and description.
+3) After Submit survey form user will be redirect on survey list paze 
+   1)Here a table with all survey data with 2 option 
+     a)Create -It will redirect to survey design(Edit) page wihh route /edit/<survey id >
+     b)Delete  -Delete the survey  
+4)In survey Dsing page user can add level box and input box using Drag and Drop funtion wiht combination 
+   a)First lebel
+   b)Second Input box
+
+5) User can add Level and box 
+6) levbel and imput box are moveable with delete function
+7) After click on submit all input and level saved with x and y cordinate in Database
+8) User will be redirect to survey list paze 
+
+
+
